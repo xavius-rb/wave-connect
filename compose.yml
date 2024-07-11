@@ -1,0 +1,17 @@
+services:
+  web: &app_base
+    ports:
+      - 3000:3000
+    depends_on:
+      - database
+      - cache
+
+  database:
+    image: postgres:16-alpine
+    ports:
+      - 5432:5432
+
+  cache:
+    image: redis:7-alpine
+    ports:
+      - 6379:6379

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WaveConnect</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+
+  <body class="bg-orange-50 font-sans">
+    <div data-controller="sidebar-menu" class="flex flex-col md:flex-row h-screen">
+      <aside
+          data-sidebar-menu-target="sidebar"
+          class="bg-orange-200 md:w-0 hidden md:block p-4 transition-all duration-300 ease-in-out fixed md:relative z-10">
+          <nav>
+            <ul class="space-y-2">
+              <li><a href="#" class="block text-orange-900 hover:text-orange-600">Home</a></li>
+              <li><a href="#" class="block text-orange-900 hover:text-orange-600">About</a></li>
+            </ul>
+          </nav>
+      </aside>
+
+      <div class="flex-1 ml-0 md:ml-50">
+        <header class="bg-orange-200 py-4 shadow-md">
+          <div class="container mx-auto px-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-orange-900">WaveConnect</h1>
+            <button class="md:hidden" data-action="click->sidebar-menu#toggleSidebar">☰</button>
+          </div>
+        </header>
+
+        <main class="container mx-auto px-4 py-8">
+            <section class="bg-orange-100 p-6 rounded-lg shadow-md mb-8">
+                <h2 class="text-xl font-bold text-orange-900 mb-4">Welcome</h2>
+                <p class="text-orange-800">This is a basic yet modern layout example using Tailwind CSS.</p>
+            </section>
+
+            <%= yield %>
+          </main>
+
+          <footer class="bg-orange-900 text-white py-4">
+              <div class="container mx-auto px-4 text-center">
+                  <p>&copy; 2024 Your Company</p>
+              </div>
+          </footer>
+      </div>
+    </div>
+  </body>
+</html>

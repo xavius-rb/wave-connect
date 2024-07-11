@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WaveConnect</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+
+  <body class="bg-sky-50 font-sans">
+    <header class="bg-sky-200 py-4 shadow-md">
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-sky-900">WaveConnect</h1>
+        <nav>
+          <ul class="flex space-x-4">
+            <li><%= link_to "Home", root_path, class: "text-sky-900 hover:text-sky-600" %></li>
+            <li><a href="#" class="text-sky-900 hover:text-sky-600">About</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+      <section class="bg-sky-100 p-6 rounded-lg shadow-md mb-8">
+        <%= yield %>
+      </section>
+    </main>
+
+    <footer class="bg-sky-900 text-white py-4">
+      <div class="container mx-auto px-4 text-center">
+        <p>&copy; 2024 Your Company</p>
+      </div>
+    </footer>
+  </body>
+</html>

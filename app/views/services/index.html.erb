@@ -1,0 +1,11 @@
+<p style="color: green"><%= notice %></p>
+
+<%= page_header("Services") %>
+
+<div id="services" class="grid grid-rows-4 grid-flow-col gap-4 mb-10">
+  <% @services.each do |service| %>
+    <%= render service %>
+  <% end %>
+</div>
+
+<%= link_to "New service", new_service_path, class: "bg-sky-900 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded" %>

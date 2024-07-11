@@ -1,0 +1,17 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # https://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  url: <%= ENV.fetch("DATABASE_URL", "").gsub('?', '_development?') %>
+
+test:
+  <<: *default
+  url: <%= ENV.fetch("DATABASE_URL", "").gsub('?', '_test?') %>
+
+production:
+  <<: *default
+  url: <%= ENV.fetch("DATABASE_URL", "").gsub('?', '_production?') %>

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @stage_environment %>
+
+<div>
+  <%= link_to "Edit this stage environment", edit_stage_environment_path(@stage_environment) %> |
+  <%= link_to "Back to stage environments", stage_environments_path %>
+
+  <%= button_to "Destroy this stage environment", @stage_environment, method: :delete %>
+</div>

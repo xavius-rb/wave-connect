@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<%= page_header("Environments") %>
+
+<div id="stage_environments">
+  <% @stage_environments.each do |stage_environment| %>
+    <%= render stage_environment %>
+    <p>
+      <%= link_to "Show this stage environment", stage_environment %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New stage environment", new_stage_environment_path %>
