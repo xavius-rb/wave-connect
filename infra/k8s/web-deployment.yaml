@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-on-k8s
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      label.deployment: web
+  template:
+    metadata:
+      labels:
+        label.deployment: web
+    spec:
+      containers:
+      - name: web
+        image: docker.io/xavius/wave
+        ports:
+        - containerPort: 3000
+          #hostPort: 3000
+          #protocol: TCP
+        stdin: true
+        tty: true
+        env:
+        - name: RAILS_ENV
+          value: development
+        - name: ENABLE_BOOTSNAP
+          value: "true"
+        - name: REDIS_URL
+          value: redis://redis:6379/0
+        - name: DATABASE_URL
+          value: postgresql://dbuser:dbpassword@postgres:5432/wave?
+      #restartPolicy: Always

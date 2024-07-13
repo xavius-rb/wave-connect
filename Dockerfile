@@ -2,37 +2,39 @@
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
 ARG RUBY_VERSION=3.3
-FROM registry.docker.com/library/ruby:$RUBY_VERSION-alpine as base
+FROM ruby:$RUBY_VERSION-alpine as base
 
-# Rails app lives here
+# Set working directory
 WORKDIR /rails
 
-# Set production environment
-#ENV RAILS_ENV="production" \
-#    BUNDLE_PATH="/usr/local/bundle"
-
-#ARG BUNDLE_DEPLOYMENT="1" \
-#    BUNDLE_WITHOUT="development"
+# Install dependencies for both build and runtime
+RUN apk add --no-cache \
+    libpq \
+    libxml2 \
+    tzdata \
+    bash \
+    gcompat
 
 # Throw-away build stage to reduce size of final image
 FROM base as build
 
-# Install packages needed to build gems and node modules
-RUN apk update --no-cache && apk add \
+# Install build dependencies and Node.js
+RUN apk add --no-cache --virtual .build-deps \
     build-base \
     git \
     libpq-dev \
-    libxml2 gcompat \
-    tzdata \
-    nodejs npm && \
+    libxml2-dev && \
+    apk add --no-cache nodejs npm && \
     npm install -g yarn
 
-# Install application gems
+# Copy Gemfile and Gemfile.lock before other files (leverage Docker cache)
 COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
-    bundle exec bootsnap precompile --gemfile
 
+# Install application gems
+RUN bundle install --jobs "$(nproc)" && \
+    rm -rf /usr/local/bundle/cache && \
+    find /usr/local/bundle/gems/ -name "*.c" -delete && \
+    find /usr/local/bundle/gems/ -name "*.o" -delete
 
 # Copy application code
 COPY . .
@@ -40,18 +42,19 @@ COPY . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+# Remove build dependencies
+RUN apk del .build-deps
 
 # Final stage for app image
 FROM base as deployment
 
-# Install packages needed for deployment
-RUN apk update --no-cache && apk add bash libpq-dev
-
-# Copy built artifacts: gems, application
+# Copy built artifacts: gems and application code
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
+
+# Ensure permissions are correct for non-root user
+RUN addgroup -S rails && adduser -S -G rails rails && \
+    chown -R rails:rails /rails /usr/local/bundle
 
 USER rails:rails
 

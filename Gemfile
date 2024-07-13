@@ -1,20 +1,21 @@
 source "https://rubygems.org"
 
-ruby "3.3.2"
+ruby "3.3.4"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3", ">= 7.1.3.3"
-gem "sprockets-rails"
+
+gem "bootsnap", require: false
+gem "cssbundling-rails"
+gem "faraday"
+gem "jbuilder"
+gem "jsbundling-rails"
 gem "pg"
 gem "puma"
-gem "jsbundling-rails"
-gem "turbo-rails"
-gem "stimulus-rails"
-gem "cssbundling-rails"
-gem "jbuilder"
-gem "bootsnap", require: false
 gem "redis"
-gem "faraday"
+gem "sprockets-rails"
+gem "stimulus-rails"
+gem "turbo-rails"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]

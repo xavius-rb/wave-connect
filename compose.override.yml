@@ -5,11 +5,12 @@ services:
     build:
       context: .
       target: build
+      dockerfile: Dockerfile
     volumes:
       - .:/rails
       - bundle_data:/usr/local/bundle
     environment:
-      - RUBY_DEBUG_OPEN=true
+      #- RUBY_DEBUG_OPEN=true
       - RAILS_ENV=development
       - ENABLE_BOOTSNAP=true
       - REDIS_URL=redis://redis:6379/0
