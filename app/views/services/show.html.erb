@@ -16,7 +16,7 @@
 
   <div class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
     <div class="py-1" role="none">
-      <%= link_to "Add environment", new_service_environment_path(@service), class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900", role: "menuitem" %>
+      <%= link_to "Add environment", new_service_stage_environment_path(@service), class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900", role: "menuitem" %>
       <%= link_to "Edit this service", edit_service_path(@service), class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900", role: "menuitem" %>
       <form action="<%= service_path(@service) %>" method="post">
         <input type="hidden" name="_method" value="delete">

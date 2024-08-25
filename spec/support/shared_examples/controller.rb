@@ -1,10 +1,10 @@
-RSpec.shared_examples :controller do |klass, except: [], namespace: nil|
+RSpec.shared_examples :controller do |klass, except: []|
   except = Array.wrap(except)
 
   # Helper to handle polymorphic paths with namespace
   define_method(:polymorphic_with_namespace) do |resource|
-    if namespace
-      polymorphic_path([*namespace.call, resource])
+    if defined?(namespace)
+      polymorphic_path([*namespace, resource])
     else
       polymorphic_path(resource)
     end
@@ -33,7 +33,7 @@ RSpec.shared_examples :controller do |klass, except: [], namespace: nil|
     describe "GET /new" do
       it "renders a successful response" do
         #get new_polymorphic_path([*namespace.call, klass].compact)
-        path = namespace ? new_polymorphic_path([*namespace.call, object].compact) : new_polymorphic_path(klass)
+        path = defined?(namespace) ? new_polymorphic_path([*namespace, klass].compact) : new_polymorphic_path(klass)
         get path
         expect(response).to be_successful
       end
@@ -45,7 +45,7 @@ RSpec.shared_examples :controller do |klass, except: [], namespace: nil|
       it "renders a successful response" do
         object = klass.create!(valid_attributes)
         #get edit_polymorphic_path([*namespace.call, object].compact)
-        path = namespace ? edit_polymorphic_path([*namespace.call, object].compact) : edit_polymorphic_path(object)
+        path = defined?(namespace) ? edit_polymorphic_path([*namespace, object].compact) : edit_polymorphic_path(object)
         get path
         expect(response).to be_successful
       end
@@ -128,7 +128,7 @@ RSpec.shared_examples :controller do |klass, except: [], namespace: nil|
 
       it "redirects to the #{klass.name.pluralize.underscore} list" do
         delete polymorphic_with_namespace(object)
-        expect(response).to redirect_to(polymorphic_with_namespace(klass))
+        expect(response).to redirect_to(polymorphic_path(klass))
       end
     end
   end

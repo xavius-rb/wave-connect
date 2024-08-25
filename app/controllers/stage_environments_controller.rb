@@ -70,6 +70,6 @@ class StageEnvironmentsController < ApplicationController
     end
 
     helper_method def service
-      @service ||= Service.find_by(id: params[:service_id])
+      @service ||= Service.find(params[:service_id])
     end
 end

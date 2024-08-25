@@ -1,4 +1,4 @@
-<%= form_with(model: stage_environment, url: service_environments_path(service)) do |form| %>
+<%= form_with(model: stage_environment, url: service_stage_environments_path(service)) do |form| %>
   <% if stage_environment.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(stage_environment.errors.count, "error") %> prohibited this stage_environment from being saved:</h2>
