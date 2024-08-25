@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    label.pod: postgres
+  name: postgres
+spec:
+  containers:
+  - name: postgres
+    image: postgres:16-alpine
+    env:
+    - name: POSTGRES_USER
+      value: dbuser
+    - name: POSTGRES_PASSWORD
+      value: dbpassword
+    - name: POSTGRES_INITDB_ARGS
+      value: "--username=dbuser"
