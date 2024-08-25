@@ -5,7 +5,5 @@ RSpec.describe "/stage_environments", type: :request do
   let(:valid_attributes) { attributes_for(:stage_environment, service_id: service.id) }
   let(:invalid_attributes) { attributes_for(:stage_environment, service_id: nil) }
 
-  xspecify do
-    it_behaves_like :controller, StageEnvironment, namespace: [service]
-  end
+  it_behaves_like :controller, StageEnvironment, namespace: -> { [service] }
 end
