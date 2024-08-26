@@ -1,5 +1,5 @@
 # WaveConnect
-[![Docker Image CI](https://github.com/xavius-rb/wave-connect/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/xavius-rb/wave-connect/actions/workflows/docker-image.yml)
+[![Docker CI](https://github.com/xavius-rb/wave-connect/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/xavius-rb/wave-connect/actions/workflows/docker-image.yml)
 
 Empowering software engineers with streamlined application management.
 
