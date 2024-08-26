@@ -1,8 +1,8 @@
 module VersionControl
   module Api
     class Github
-      def initialize
-        @connection ||= ConnectionFactory.github
+      def initialize(access_token)
+        @connection ||= ConnectionFactory.github(access_token)
       end
 
       def repositories(org:)
@@ -11,6 +11,10 @@ module VersionControl
 
       def commits(owner:, repo:)
         @connection.get("/repos/#{owner}/#{repo}/commits").body
+      end
+
+      def branches(owner:, repo:)
+        @connection.get("/repos/#{owner}/#{repo}/branches").body
       end
 
       def repository_content(owner:, repo:, path:)

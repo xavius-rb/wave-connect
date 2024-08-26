@@ -20,4 +20,14 @@ RSpec.describe VersionControl::Bridge do
       subject.commits(owner: owner, repo: repo)
     end
   end
+
+  describe '#repository_content' do
+    it 'calls client.repository_content with the provided owner, repo, and path' do
+      owner = 'example_owner'
+      repo = 'example_repo'
+      path = 'example_path'
+      expect(mocked_client).to receive(:repository_content).with(owner: owner, repo: repo, path: path)
+      subject.repository_content(owner: owner, repo: repo, path: path)
+    end
+  end
 end

@@ -14,6 +14,10 @@ module VersionControl
       client.commits(owner:, repo:)
     end
 
+    def branches(owner:, repo:)
+      client.branches(owner:, repo:)
+    end
+
     def repository_content(owner:, repo:, path:)
       client.repository_content(owner:, repo:, path:)
     end
