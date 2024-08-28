@@ -1,27 +1,198 @@
-<p style="color: green"><%= notice %></p>
+<p class="text-green-600 mb-4"><%= notice %></p>
 
-<%= page_header(@service.name) %>
+<div class="flex justify-between items-center mb-4">
+  <!-- Page Header -->
+  <%= page_header(@service.name) %>
 
+  <!-- Options Dropdown -->
+  <div class="relative inline-block text-left" data-controller="dropdown">
+    <div>
+      <button type="button" id="options-menu-button" class="inline-flex justify-center rounded-md border border-sky-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-sky-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" aria-haspopup="true" aria-expanded="false"
+        data-action="click->dropdown#toggleMenu">
+        Options
+        <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+    <div id="options-menu" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="options-menu-button"
+      data-dropdown-target="menu">
+      <div class="py-1" role="none">
+        <%= link_to "Add environment", new_service_stage_environment_path(@service), class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900", role: "menuitem" %>
+        <%= link_to "Edit this service", edit_service_path(@service), class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900", role: "menuitem" %>
+        <form action="<%= service_path(@service) %>" method="post">
+          <input type="hidden" name="_method" value="delete">
+          <button type="submit" class="text-gray-700 block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900" role="menuitem">Destroy this service</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Service Details -->
 <%= render @service %>
 
-<div class="max-w-7xl mx-auto p-6 flex space-x-6">
-  <!-- Repository Contents -->
-  <div class="w-1/2">
-    <h1 class="text-2xl font-bold mb-4">Repository Contents</h1>
+<div class="container mx-auto p-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+    <!-- CI/CD Pipeline Status -->
+    <section class="bg-white shadow-md p-4 rounded-lg">
+      <h2 class="text-xl font-semibold">CI/CD Pipeline Status</h2>
+      <div class="flex items-center space-x-4">
+        <div class="flex-1">
+          <div class="text-gray-600">Current Build:</div>
+          <div class="text-lg font-bold text-green-600">Success</div>
+        </div>
+        <div>
+          <a href="#" class="text-blue-500 hover:underline">View Logs</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Quality and Security Metrics -->
+    <section class="bg-white shadow-md p-4 rounded-lg">
+      <h2 class="text-xl font-semibold">Code Quality and Security Metrics</h2>
+      <div class="grid grid-cols-3 gap-4">
+        <div>
+          <div class="text-gray-600">Linting Issues</div>
+          <div class="text-lg font-bold text-red-600">5 Issues</div>
+        </div>
+        <div>
+          <div class="text-gray-600">Code Smells</div>
+          <div class="text-lg font-bold text-yellow-600">2 Smells</div>
+        </div>
+        <div>
+          <div class="text-gray-600">Security Vulnerabilities</div>
+          <div class="text-lg font-bold text-red-600">1 Critical</div>
+        </div>
+      </div>
+      <div class="mt-4">
+        <a href="#" class="text-blue-500 hover:underline">View Trends</a>
+      </div>
+    </section>
+
+    <!-- Deployment Overview -->
+    <section class="bg-white shadow-md p-4 rounded-lg">
+      <h2 class="text-xl font-semibold">Deployment Overview</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <div class="text-gray-600">Last Deployment (Production)</div>
+          <div class="text-lg font-bold text-green-600">Success</div>
+        </div>
+        <div class="flex space-x-2">
+          <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Rollback</button>
+          <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Redeploy</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Production Monitoring and Errors -->
+    <section class="bg-white shadow-md p-4 rounded-lg">
+      <h2 class="text-xl font-semibold">Production Monitoring and Errors</h2>
+      <div class="flex flex-col space-y-2">
+        <div class="text-gray-600">Most Recent Error</div>
+        <div class="text-lg font-bold text-red-600">500 Internal Server Error</div>
+        <a href="#" class="text-blue-500 hover:underline">View Logs</a>
+      </div>
+    </section>
+
+    <!-- Repository Stats and Activity -->
+    <section class="bg-white shadow-md p-4 rounded-lg">
+      <h2 class="text-xl font-semibold">Repository Stats and Activity</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <div class="text-gray-600">Recent Commits</div>
+          <ul class="list-disc pl-5">
+            <% @service.fetch_commits.each do |h| %>
+              <li class="text-gray-800">
+                <%= link_to h.dig("commit", "message"), h["html_url"], class: "text-gray text-blue-500 hover:underline" %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <div>
+          <div class="text-gray-600">Open Pull Requests</div>
+          <ul class="list-disc pl-5">
+            <% @service.fetch_pull_requests.each do |h| %>
+              <li class="text-gray-800">
+                <%= link_to h["title"], h["html_url"], class: "text-gray text-blue-500 hover:underline" %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notifications and Alerts -->
+    <section class="bg-white shadow-md p-4 rounded-lg">
+      <h2 class="text-xl font-semibold">Notifications and Alerts</h2>
+      <div class="space-y-2">
+        <div class="text-red-600">⚠️ New high-severity bug found in production</div>
+        <div class="text-yellow-600">⚠️ Deployment failed on staging</div>
+        <a href="#" class="text-blue-500 hover:underline">Manage Alerts</a>
+      </div>
+    </section>
+
+    <!-- Team Activity and Collaboration -->
+    <section class="bg-white shadow-md p-4 rounded-lg">
+      <h2 class="text-xl font-semibold">Team Activity and Collaboration</h2>
+      <div class="space-y-2">
+        <div class="text-gray-600">Ongoing Code Reviews</div>
+        <% if @service.fetch_pull_requests.any? %>
+          <% @service.fetch_pull_requests.each do |h| %>
+            <div class="text-gray-800">
+              Reviewing PR : <%= link_to h["title"], h["html_url"], class: "text-blue-500 hover:underline" %>
+            </div>
+            <div class="text-gray-600">
+              Status: <%= h["state"] %> | <%= h["comments"] %> Comments | <%= h["review_comments"] %> Review Comments
+            </div>
+          <% end %>
+        <% else %>
+          <div class="text-gray-500">No active pull requests at the moment.</div>
+        <% end %>
+      </div>
+    </section>
+
+    <!-- Historical Trends and Reports -->
+    <section class="bg-white shadow-md p-4 rounded-lg">
+      <h2 class="text-xl font-semibold">Historical Trends and Reports</h2>
+      <div class="text-gray-600">Deployment Frequency Over Time</div>
+      <div class="h-32 bg-gray-200 rounded-lg"></div> <!-- Placeholder for a chart -->
+      <a href="#" class="text-blue-500 hover:underline mt-4 block">View Full Report</a>
+    </section>
+  </div>
+</div>
+
+
+<div class="max-w-7xl mx-auto p-6">
+  <!-- Tabs -->
+  <div class="border-b border-gray-200 mb-6">
+    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+      <a href="#repository-contents" class="tab-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 py-4 border-b-2 border-transparent hover:border-indigo-500 text-sm font-medium active-tab" aria-current="page">
+        Repository Contents
+      </a>
+      <a href="#repository-branches" class="tab-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 py-4 border-b-2 border-transparent hover:border-indigo-500 text-sm font-medium">
+        Repository Branches
+      </a>
+    </nav>
+  </div>
+
+  <!-- Tab Content -->
+  <div id="repository-contents" class="tab-content">
+    <h2 class="text-2xl font-bold mb-4">Repository Contents</h2>
     <ul class="space-y-4">
-      <% @service.fetch_repository_content.map { |item| { name: item['name'], path: item['path'] } }.each do |item| %>
+      <% @service.fetch_repository_content.each do |item| %>
         <li class="p-4 border rounded-lg bg-gray-50 shadow-sm">
           <div class="text-gray-600">
-            <%= item[:path] %>
+            <%= item['path'] %>
           </div>
         </li>
       <% end %>
     </ul>
   </div>
 
-  <!-- Repository Branches -->
-  <div class="w-1/2">
-    <h1 class="text-2xl font-bold mb-4">Repository Branches</h1>
+  <div id="repository-branches" class="tab-content hidden">
+    <h2 class="text-2xl font-bold mb-4">Repository Branches</h2>
     <ul class="space-y-4">
       <% @service.fetch_repository_branches.each do |branch| %>
         <li class="p-4 border rounded-lg bg-gray-50 shadow-sm">
@@ -44,23 +215,25 @@
   </div>
 </div>
 
-<div class="relative inline-block text-left mt-4">
-  <div>
-    <button type="button" class="inline-flex justify-center w-full rounded-md border border-sky-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-sky-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-haspopup="true" aria-expanded="true">
-      Options
-      <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.4140l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-      </svg>
-    </button>
-  </div>
-  <div class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-    <div class="py-1" role="none">
-      <%= link_to "Add environment", new_service_stage_environment_path(@service), class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900", role: "menuitem" %>
-      <%= link_to "Edit this service", edit_service_path(@service), class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900", role: "menuitem" %>
-      <form action="<%= service_path(@service) %>" method="post">
-        <input type="hidden" name="_method" value="delete">
-        <button type="submit" class="text-gray-700 block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900" role="menuitem">Destroy this service</button>
-      </form>
-    </div>
-  </div>
-</div>
+<script>
+  // Tab switching logic
+  document.querySelectorAll('.tab-link').forEach(link => {
+    link.addEventListener('click', function(event) {
+      event.preventDefault();
+
+      document.querySelectorAll('.tab-link').forEach(link => link.classList.remove('active-tab'));
+      this.classList.add('active-tab');
+
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+      const target = this.getAttribute('href');
+      document.querySelector(target).classList.remove('hidden');
+    });
+  });
+</script>
+
+<style>
+  .active-tab {
+    border-color: #6366f1; /* Indigo */
+    color: #4f46e5; /* Indigo */
+  }
+</style>

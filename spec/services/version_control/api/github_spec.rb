@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe VersionControl::Api::Github do
-  let(:service) { described_class.new }
+  let(:service) { described_class.new(access_token: access_token) }
+  let(:access_token) { 'access_token' }
 
   describe '#repositories' do
     subject(:repositories) { service.repositories(org: org_name) }
@@ -17,14 +18,15 @@ RSpec.describe VersionControl::Api::Github do
   end
 
   describe '#commits' do
-    subject(:commits) { service.commits(owner: owner, repo: repo) }
+    subject(:commits) { service.commits(owner: owner, repo: repo, per_page: per_page) }
 
     let(:owner) { 'example' }
     let(:repo) { 'repo' }
+    let(:per_page) { 10 }
     let(:commits_response) { [{ 'sha' => '123' }, { 'sha' => '456' }] }
 
     it 'fetches commits from Github API' do
-      allow_any_instance_of(Faraday::Connection).to receive(:get).with("/repos/#{owner}/#{repo}/commits").and_return(double('Faraday::Response', body: commits_response))
+      allow_any_instance_of(Faraday::Connection).to receive(:get).with("/repos/#{owner}/#{repo}/commits?per_page=#{per_page}").and_return(double('Faraday::Response', body: commits_response))
 
       expect(commits).to eq(commits_response)
     end
@@ -44,4 +46,20 @@ RSpec.describe VersionControl::Api::Github do
       expect(repository_content).to eq(content_response)
     end
   end
+
+  describe '#pull_requests' do
+    subject(:pull_requests) { service.pull_requests(owner: owner, repo: repo, per_page: per_page) }
+
+    let(:owner) { 'example' }
+    let(:repo) { 'repo' }
+    let(:per_page) { 10 }
+    let(:pull_requests_response) { [{ 'number' => 1 }, { 'number' => 2 }] }
+
+    it 'fetches pull requests from Github API' do
+      allow_any_instance_of(Faraday::Connection).to receive(:get).with("/repos/#{owner}/#{repo}/pulls?per_page=#{per_page}").and_return(double('Faraday::Response', body: pull_requests_response))
+
+      expect(pull_requests).to eq(pull_requests_response)
+    end
+  end
+
 end
