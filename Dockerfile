@@ -9,10 +9,10 @@ WORKDIR /rails
 
 # Install dependencies for both build and runtime
 RUN apk add --no-cache \
-    libpq \
+    build-base \
+    libpq-dev \
     libxml2 \
     tzdata \
-    bash \
     gcompat
 
 # Throw-away build stage to reduce size of final image
@@ -20,8 +20,8 @@ FROM base as build
 
 # Install build dependencies and Node.js
 RUN apk add --no-cache --virtual .build-deps \
-    build-base \
     git \
+    bash \
     libpq-dev \
     libxml2-dev && \
     apk add --no-cache nodejs npm && \
