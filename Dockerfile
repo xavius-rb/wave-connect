@@ -15,13 +15,19 @@ RUN apk add --no-cache \
     tzdata \
     gcompat
 
+# Set environment variables
+ENV BUNDLE_PATH="/usr/local/bundle"
+ENV NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+ENV BUNDLER_VERSION='2.4.10'
+RUN gem install bundler -v ${BUNDLER_VERSION}
+
+
 # Throw-away build stage to reduce size of final image
 FROM base as build
 
 # Install build dependencies and Node.js
 RUN apk add --no-cache --virtual .build-deps \
     git \
-    bash \
     libpq-dev \
     libxml2-dev && \
     apk add --no-cache nodejs npm && \
@@ -29,12 +35,9 @@ RUN apk add --no-cache --virtual .build-deps \
 
 # Copy Gemfile and Gemfile.lock before other files (leverage Docker cache)
 COPY Gemfile Gemfile.lock ./
-
-# Install application gems
-RUN bundle install --jobs "$(nproc)" && \
-    rm -rf /usr/local/bundle/cache && \
-    find /usr/local/bundle/gems/ -name "*.c" -delete && \
-    find /usr/local/bundle/gems/ -name "*.o" -delete
+RUN bundle install --jobs 2 --path="${BUNDLE_PATH}" && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+    bundle exec bootsnap precompile --gemfile
 
 # Copy application code
 COPY . .
@@ -46,10 +49,10 @@ RUN bundle exec bootsnap precompile app/ lib/
 RUN apk del .build-deps
 
 # Final stage for app image
-FROM base as deployment
+FROM base
 
 # Copy built artifacts: gems and application code
-COPY --from=build /usr/local/bundle /usr/local/bundle
+COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --from=build /rails /rails
 
 # Ensure permissions are correct for non-root user

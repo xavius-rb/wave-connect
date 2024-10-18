@@ -103,7 +103,7 @@
         <div>
           <div class="text-gray-600">Recent Commits</div>
           <ul class="list-disc pl-5">
-            <% @service.fetch_commits.each do |h| %>
+            <% @service.repository.fetch_commits.each do |h| %>
               <li class="text-gray-800">
                 <%= link_to h.dig("commit", "message"), h["html_url"], class: "text-gray text-blue-500 hover:underline" %>
               </li>
@@ -113,7 +113,7 @@
         <div>
           <div class="text-gray-600">Open Pull Requests</div>
           <ul class="list-disc pl-5">
-            <% @service.fetch_pull_requests.each do |h| %>
+            <% @service.repository.fetch_pull_requests.each do |h| %>
               <li class="text-gray-800">
                 <%= link_to h["title"], h["html_url"], class: "text-gray text-blue-500 hover:underline" %>
               </li>
@@ -138,8 +138,8 @@
       <h2 class="text-xl font-semibold">Team Activity and Collaboration</h2>
       <div class="space-y-2">
         <div class="text-gray-600">Ongoing Code Reviews</div>
-        <% if @service.fetch_pull_requests.any? %>
-          <% @service.fetch_pull_requests.each do |h| %>
+        <% if @repository.fetch_pull_requests.any? %>
+          <% @repository.fetch_pull_requests.each do |h| %>
             <div class="text-gray-800">
               Reviewing PR : <%= link_to h["title"], h["html_url"], class: "text-blue-500 hover:underline" %>
             </div>
@@ -181,7 +181,7 @@
   <div id="repository-contents" class="tab-content">
     <h2 class="text-2xl font-bold mb-4">Repository Contents</h2>
     <ul class="space-y-4">
-      <% @service.fetch_repository_content.each do |item| %>
+      <% @repository.fetch_content.each do |item| %>
         <li class="p-4 border rounded-lg bg-gray-50 shadow-sm">
           <div class="text-gray-600">
             <%= item['path'] %>
@@ -194,7 +194,7 @@
   <div id="repository-branches" class="tab-content hidden">
     <h2 class="text-2xl font-bold mb-4">Repository Branches</h2>
     <ul class="space-y-4">
-      <% @service.fetch_repository_branches.each do |branch| %>
+      <% @repository.fetch_branches.each do |branch| %>
         <li class="p-4 border rounded-lg bg-gray-50 shadow-sm">
           <div class="mb-2">
             <span class="font-semibold text-lg text-gray-700">Branch Name:</span>

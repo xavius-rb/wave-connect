@@ -8,30 +8,30 @@ module VersionControl
       end
 
       def commits(owner:, repo:, per_page:)
-        @connection.get("/repos/#{owner}/#{repo}/commits?per_page=#{per_page}").body
+        @connection.get("/repos/#{owner}/#{repo}/commits?per_page=#{per_page}")
       end
 
       def pull_requests(owner:, repo:, per_page:)
-        @connection.get("/repos/#{owner}/#{repo}/pulls?per_page=#{per_page}").body
+        @connection.get("/repos/#{owner}/#{repo}/pulls?per_page=#{per_page}")
       end
 
       def workflow_runs(owner:, repo:, per_page:)
-        @connection.get("/repos/#{owner}/#{repo}/actions/runs?per_page=#{per_page}").body
+        @connection.get("/repos/#{owner}/#{repo}/actions/runs?per_page=#{per_page}")
       end
 
       # FIXME: This method is not used anywhere
       def repositories(org:)
-        @connection.get("/orgs/#{org}/repos").body
+        @connection.get("/orgs/#{org}/repos")
       end
 
       def branches(owner:, repo:)
-        @connection.get("/repos/#{owner}/#{repo}/branches").body
+        @connection.get("/repos/#{owner}/#{repo}/branches")
       end
 
       def repository_content(owner:, repo:, path:)
         base_url = "/repos/#{owner}/#{repo}/contents"
         base_url += "/#{path}" if path.present?
-        @connection.get(base_url).body
+        @connection.get(base_url)
       end
     end
   end

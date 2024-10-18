@@ -8,6 +8,7 @@ class ServicesController < ApplicationController
 
   # GET /services/1 or /services/1.json
   def show
+    @repository = @service.repository
   end
 
   # GET /services/new

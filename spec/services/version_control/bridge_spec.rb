@@ -39,4 +39,13 @@ RSpec.describe VersionControl::Bridge do
       subject.pull_requests(owner: owner, repo: repo, per_page: 2)
     end
   end
+
+  describe '#branches' do
+    it 'calls client.branches with the provided owner and repo' do
+      owner = 'example_owner'
+      repo = 'example_repo'
+      expect(mocked_client).to receive(:branches).with(owner: owner, repo: repo)
+      subject.branches(owner: owner, repo: repo)
+    end
+  end
 end
