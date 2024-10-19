@@ -12,4 +12,11 @@ RSpec.describe Service, type: :model do
       end
     end
   end
+
+  describe '#parse_repository_url' do
+    subject { service.parse_repository_url }
+    let(:service) { build(:service, repository_url: "https://github.com/xavius-rb/wave-connect") }
+
+    it { is_expected.to eq(["xavius-rb", "wave-connect", ""]) }
+  end
 end

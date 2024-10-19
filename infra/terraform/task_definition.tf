@@ -21,6 +21,25 @@ resource "aws_ecs_task_definition" "default" {
           protocol      = "tcp"
         }
       ]
+
+      environment = [
+        {
+          name  = "RAILS_ENV"
+          value = "production"
+        },
+        {
+          name = "REDIS_URL"
+          valueFrom = "arn:aws:ssm:region:account-id:parameter/myapp/REDIS_URL"
+        },
+        {
+          name = "DATABASE_URL"
+          valueFrom = "arn:aws:ssm:region:account-id:parameter/myapp/DATABASE_URL"
+        },
+        {
+          name = "SECRET_KEY_BASE"
+          valueFrom = "arn:aws:ssm:region:account-id:parameter/myapp/SECRET_KEY_BASE"
+        }
+      ]
       logConfiguration = {
         logDriver = "awslogs"
         options   = {

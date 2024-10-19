@@ -6,5 +6,7 @@ import { application } from "./application"
 
 import HelloController from "./hello_controller"
 import SidebarMenuController from "./sidebar_menu_controller"
+import DropdownController from "./common/dropdown_controller"
 application.register("hello", HelloController)
 application.register("sidebar-menu", SidebarMenuController)
+application.register("dropdown", DropdownController)
