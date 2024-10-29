@@ -37,7 +37,8 @@ module VersionControl
       if response.success?
         response.body
       else
-        Rails.logger.error("Failed to fetch data from version control API: #{response.status} - #{response.reason_phrase}") && {}
+        Rails.logger.error("Failed to fetch data from version control API: #{response.status} - #{response.reason_phrase}")
+        {}
       end
     end
   end
