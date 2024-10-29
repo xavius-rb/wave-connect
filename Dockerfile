@@ -18,9 +18,6 @@ RUN apk add --no-cache \
 # Set environment variables
 ENV BUNDLE_PATH="/usr/local/bundle"
 ENV NOKOGIRI_USE_SYSTEM_LIBRARIES=true
-ENV BUNDLER_VERSION='2.4.10'
-RUN gem install bundler -v ${BUNDLER_VERSION}
-
 
 # Throw-away build stage to reduce size of final image
 FROM base as build

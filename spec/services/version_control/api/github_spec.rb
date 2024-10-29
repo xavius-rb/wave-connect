@@ -11,7 +11,9 @@ RSpec.describe VersionControl::Api::Github do
     let(:repos_response) { [{ 'name' => 'repo1' }, { 'name' => 'repo2' }] }
 
     it 'fetches repositories from Github API' do
-      allow_any_instance_of(Faraday::Connection).to receive(:get).with("/orgs/#{org_name}/repos").and_return(double(Faraday::Response, body: repos_response))
+      allow_any_instance_of(Faraday::Connection).to receive(:get).with("/orgs/#{org_name}/repos").and_return(double(
+                                                                                                               Faraday::Response, body: repos_response
+                                                                                                             ))
 
       expect(repositories.body).to eq(repos_response)
     end
@@ -26,7 +28,9 @@ RSpec.describe VersionControl::Api::Github do
     let(:commits_response) { [{ 'sha' => '123' }, { 'sha' => '456' }] }
 
     it 'fetches commits from Github API' do
-      allow_any_instance_of(Faraday::Connection).to receive(:get).with("/repos/#{owner}/#{repo}/commits?per_page=#{per_page}").and_return(double(Faraday::Response, body: commits_response))
+      allow_any_instance_of(Faraday::Connection).to receive(:get).with("/repos/#{owner}/#{repo}/commits?per_page=#{per_page}").and_return(double(
+                                                                                                                                            Faraday::Response, body: commits_response
+                                                                                                                                          ))
 
       expect(commits.body).to eq(commits_response)
     end
@@ -41,7 +45,9 @@ RSpec.describe VersionControl::Api::Github do
     let(:content_response) { { 'content' => 'content' } }
 
     it 'fetches repository content from Github API' do
-      allow_any_instance_of(Faraday::Connection).to receive(:get).with("/repos/#{owner}/#{repo}/contents/#{path}").and_return(double(Faraday::Response, body: content_response))
+      allow_any_instance_of(Faraday::Connection).to receive(:get).with("/repos/#{owner}/#{repo}/contents/#{path}").and_return(double(
+                                                                                                                                Faraday::Response, body: content_response
+                                                                                                                              ))
 
       expect(repository_content.body).to eq(content_response)
     end
@@ -56,7 +62,9 @@ RSpec.describe VersionControl::Api::Github do
     let(:pull_requests_response) { [{ 'number' => 1 }, { 'number' => 2 }] }
 
     it 'fetches pull requests from Github API' do
-      allow_any_instance_of(Faraday::Connection).to receive(:get).with("/repos/#{owner}/#{repo}/pulls?per_page=#{per_page}").and_return(double(Faraday::Response, body: pull_requests_response))
+      allow_any_instance_of(Faraday::Connection).to receive(:get).with("/repos/#{owner}/#{repo}/pulls?per_page=#{per_page}").and_return(double(
+                                                                                                                                          Faraday::Response, body: pull_requests_response
+                                                                                                                                        ))
 
       expect(pull_requests.body).to eq(pull_requests_response)
     end

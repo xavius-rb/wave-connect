@@ -1,1 +1,1 @@
-json.array! @services, partial: "services/service", as: :service
+json.array! @services, partial: 'services/service', as: :service

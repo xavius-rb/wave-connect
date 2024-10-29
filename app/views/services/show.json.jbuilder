@@ -1,1 +1,1 @@
-json.partial! "services/service", service: @service
+json.partial! 'services/service', service: @service

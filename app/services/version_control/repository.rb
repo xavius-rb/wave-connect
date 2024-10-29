@@ -31,6 +31,7 @@ module VersionControl
     end
 
     private
+
     def version_control_api
       # TODO: determine the api based on the service
       VersionControl::Api::Github.new(access_token: @access_token)

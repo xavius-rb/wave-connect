@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "/stage_environments", type: :request do
+RSpec.describe '/stage_environments', type: :request do
   it_behaves_like :controller, StageEnvironment do
     let(:service) { create(:service) }
     let(:namespace) { [service] }

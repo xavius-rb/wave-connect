@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "/services", type: :request do
+RSpec.describe '/services', type: :request do
   let(:repository) { double(VersionControl::Repository) }
 
   before do
@@ -14,6 +14,6 @@ RSpec.describe "/services", type: :request do
 
   it_behaves_like :controller, Service do
     let(:valid_attributes) { attributes_for(:service) }
-    let(:invalid_attributes) { attributes_for(:service, name: "") }
+    let(:invalid_attributes) { attributes_for(:service, name: '') }
   end
 end
