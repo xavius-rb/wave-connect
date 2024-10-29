@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :stage_environment do
     service
-    name { "test" }
+    name { Faker::Lorem.word }
   end
 end

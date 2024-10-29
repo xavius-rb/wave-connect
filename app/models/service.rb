@@ -6,4 +6,8 @@ class Service < ApplicationRecord
   end
 
   has_many :environments, class_name: 'StageEnvironment', dependent: :destroy
+
+  def repository
+    @version_control_repository ||= VersionControl::Repository.new(self)
+  end
 end

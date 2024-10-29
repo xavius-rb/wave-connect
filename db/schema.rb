@@ -10,25 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_03_224445) do
+ActiveRecord::Schema[7.2].define(version: 20_241_018_230_845) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension 'plpgsql'
 
-  create_table "services", force: :cascade do |t|
-    t.string "name"
-    t.string "repository_url"
-    t.string "uuid"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table 'services', force: :cascade do |t|
+    t.string 'name'
+    t.string 'repository_url'
+    t.string 'uuid'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.string 'repository_access_token'
   end
 
-  create_table "stage_environments", force: :cascade do |t|
-    t.bigint "service_id", null: false
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["service_id"], name: "index_stage_environments_on_service_id"
+  create_table 'stage_environments', force: :cascade do |t|
+    t.bigint 'service_id', null: false
+    t.string 'name'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['service_id'], name: 'index_stage_environments_on_service_id'
   end
 
-  add_foreign_key "stage_environments", "services"
+  add_foreign_key 'stage_environments', 'services'
 end
