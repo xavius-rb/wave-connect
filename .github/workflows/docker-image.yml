@@ -64,7 +64,6 @@ jobs:
           cache-from: type=local,src=${{ runner.temp }}/.buildx-cache
           context: .
           push: true
-          target: deployment
           tags: xavius/wave-connect:${{ github.sha }}, xavius/wave-connect:latest
 
   deploy:
