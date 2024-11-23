@@ -42,5 +42,7 @@ module WaveConnect
       generators.test_framework :rspec
       generators.view_specs false
     end
+
+    config.responders.error_status = :unprocessable_entity
   end
 end

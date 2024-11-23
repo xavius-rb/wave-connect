@@ -54,33 +54,71 @@ RSpec.shared_examples :controller do |klass, except: []|
 
   unless except.include?(:create)
     describe 'POST /create' do
-      let(:make_request) do
-        post polymorphic_with_namespace(klass), params: request_params
+      context 'when HTML request' do
+        let(:make_request) do
+          post polymorphic_with_namespace(klass), params: request_params
+        end
+
+        context 'with valid parameters' do
+          let(:request_params) do
+            { klass.name.underscore => valid_attributes }
+          end
+
+          it "creates a new #{klass.name}" do
+            expect { make_request }.to change(klass, :count).by(1)
+            expect(flash[:notice]).to match(/#{klass.model_name.human} was successfully created.*/)
+            expect(response).to have_http_status(:found)
+          end
+        end
+
+        context 'with invalid parameters' do
+          let(:request_params) do
+            { klass.name.underscore => invalid_attributes }
+          end
+
+          it "does not create a new #{klass.name}" do
+            expect { make_request }.not_to change(klass, :count)
+          end
+
+          it 'renders a unprocessable_entity response' do
+            make_request
+            expect(response).to have_http_status(:unprocessable_entity)
+          end
+        end
       end
 
-      context 'with valid parameters' do
-        let(:request_params) do
-          { klass.name.underscore => valid_attributes }
+      context 'when JSON request' do
+        let(:make_request) do
+          post polymorphic_with_namespace(klass), params: request_params, as: :json
         end
 
-        it "creates a new #{klass.name}" do
-          expect { make_request }.to change(klass, :count).by(1)
-          expect(flash[:notice]).to match(/#{klass.model_name.human} was successfully created.*/)
-        end
-      end
+        context 'with valid parameters' do
+          let(:request_params) do
+            { klass.name.underscore => valid_attributes }
+          end
 
-      context 'with invalid parameters' do
-        let(:request_params) do
-          { klass.name.underscore => invalid_attributes }
-        end
-
-        it "does not create a new #{klass.name}" do
-          expect { make_request }.not_to change(klass, :count)
+          it "creates a new #{klass.name}" do
+            expect { make_request }.to change(klass, :count).by(1)
+            expect(response).to have_http_status(:created)
+            expect(response.content_type).to match(a_string_including('application/json'))
+            expect(response.location).to match(a_string_including(polymorphic_path(klass)))
+          end
         end
 
-        it 'renders a unprocessable_entity response' do
-          make_request
-          expect(response).to have_http_status(:unprocessable_entity)
+        context 'with invalid parameters' do
+          let(:request_params) do
+            { klass.name.underscore => invalid_attributes }
+          end
+
+          it "does not create a new #{klass.name}" do
+            expect { make_request }.not_to change(klass, :count)
+          end
+
+          it 'renders a unprocessable_entity response' do
+            make_request
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response.content_type).to match(a_string_including('application/json'))
+          end
         end
       end
     end
@@ -88,31 +126,66 @@ RSpec.shared_examples :controller do |klass, except: []|
 
   unless except.include?(:update)
     describe 'PATCH /update' do
-      let(:make_request) do
-        patch polymorphic_with_namespace(object), params: request_params
+      context 'when HTML request' do
+        let(:make_request) do
+          patch polymorphic_with_namespace(object), params: request_params
+        end
+
+        let(:object) { klass.create!(valid_attributes) }
+
+        context 'with valid parameters' do
+          let(:request_params) do
+            { klass.name.underscore => valid_attributes }
+          end
+
+          it "updates the requested #{klass.name}" do
+            make_request
+            expect(flash[:notice]).to match(/#{klass.model_name.human} was successfully updated.*/)
+            expect(response).to have_http_status(:found)
+          end
+        end
+
+        context 'with invalid parameters' do
+          let(:request_params) do
+            { klass.name.underscore => invalid_attributes }
+          end
+
+          it 'renders a unprocessable_entity response' do
+            make_request
+            expect(response).to have_http_status(:unprocessable_entity)
+          end
+        end
       end
 
-      let(:object) { klass.create!(valid_attributes) }
-
-      context 'with valid parameters' do
-        let(:request_params) do
-          { klass.name.underscore => valid_attributes }
+      context 'when JSON request' do
+        let(:make_request) do
+          patch polymorphic_with_namespace(object), params: request_params, as: :json
         end
 
-        it "updates the requested #{klass.name}" do
-          make_request
-          expect(flash[:notice]).to match(/#{klass.model_name.human} was successfully updated.*/)
-        end
-      end
+        let(:object) { klass.create!(valid_attributes) }
 
-      context 'with invalid parameters' do
-        let(:request_params) do
-          { klass.name.underscore => invalid_attributes }
+        context 'with valid parameters' do
+          let(:request_params) do
+            { klass.name.underscore => valid_attributes }
+          end
+
+          it "updates the requested #{klass.name}" do
+            make_request
+            expect(response).to have_http_status(:ok)
+            expect(response.location).to match(a_string_including(polymorphic_path(object)))
+          end
         end
 
-        it 'renders a unprocessable_entity response' do
-          make_request
-          expect(response).to have_http_status(:unprocessable_entity)
+        context 'with invalid parameters' do
+          let(:request_params) do
+            { klass.name.underscore => invalid_attributes }
+          end
+
+          it 'renders a unprocessable_entity response' do
+            make_request
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response.content_type).to match(a_string_including('application/json'))
+          end
         end
       end
     end

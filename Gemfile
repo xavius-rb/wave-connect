@@ -16,6 +16,7 @@ gem 'redis'
 gem 'sprockets-rails'
 gem 'stimulus-rails'
 gem 'turbo-rails'
+gem 'responders'
 
 group :development, :test do
   gem 'brakeman', require: false
