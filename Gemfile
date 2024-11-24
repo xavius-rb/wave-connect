@@ -1,9 +1,7 @@
 source 'https://rubygems.org'
 
-ruby '3.3.5'
-
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 7.2.0'
+gem 'rails', '~> 8.0'
 
 gem 'bootsnap', require: false
 gem 'cssbundling-rails'
@@ -16,6 +14,7 @@ gem 'redis'
 gem 'sprockets-rails'
 gem 'stimulus-rails'
 gem 'turbo-rails'
+gem 'responders'
 
 group :development, :test do
   gem 'brakeman', require: false

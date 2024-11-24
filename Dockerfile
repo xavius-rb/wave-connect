@@ -32,7 +32,8 @@ RUN apk add --no-cache --virtual .build-deps \
 
 # Copy Gemfile and Gemfile.lock before other files (leverage Docker cache)
 COPY Gemfile Gemfile.lock ./
-RUN bundle install --jobs 2 --path="${BUNDLE_PATH}" && \
+RUN bundle config set path "${BUNDLE_PATH}" && \
+    bundle install --jobs 2 && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
