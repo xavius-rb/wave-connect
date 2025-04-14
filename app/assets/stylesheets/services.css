@@ -1,0 +1,83 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.notice {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.service-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+}
+
+.service-detail {
+  margin-bottom: 16px;
+}
+
+.service-label {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.service-value {
+  font-size: 1rem;
+  color: #333;
+}
+
+.price-value {
+  font-size: 1.25rem;
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.actions {
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.button-primary {
+  background-color: #1976d2;
+  color: white;
+}
+
+.button-primary:hover {
+  background-color: #1565c0;
+}
+
+.button-danger {
+  background-color: #d32f2f;
+  color: white;
+}
+
+.button-danger:hover {
+  background-color: #c62828;
+}
+
+.link {
+  color: #666;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: #333;
+}

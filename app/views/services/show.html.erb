@@ -1,0 +1,16 @@
+<div class="container">
+  <% if notice %>
+    <div class="notice"><%= notice %></div>
+  <% end %>
+
+  <%= render @service %>
+
+  <div class="actions">
+    <%= link_to "Edit this service", edit_service_path(@service), class: "button button-primary" %>
+    <%= link_to "Back to services", services_path, class: "link" %>
+    <%= button_to "Destroy this service", @service,
+        method: :delete,
+        class: "button button-danger",
+        data: { confirm: "Are you sure?" } %>
+  </div>
+</div>
