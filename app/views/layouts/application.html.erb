@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="h-full bg-gray-50">
   <head>
     <title><%= content_for(:title) || "Wave Connect" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -10,19 +10,48 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%# Enable PWA manifest for installable apps %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="h-full">
+    <div class="min-h-full">
+      <%= render "shared/header" %>
+
+      <main>
+        <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+          <% if notice.present? %>
+            <div class="rounded-md bg-blue-50 p-4 mb-6">
+              <div class="flex">
+                <div class="ml-3">
+                  <p class="text-sm font-medium text-blue-800"><%= notice %></p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <% if alert.present? %>
+            <div class="rounded-md bg-red-50 p-4 mb-6">
+              <div class="flex">
+                <div class="ml-3">
+                  <p class="text-sm font-medium text-red-800"><%= alert %></p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <%= yield %>
+        </div>
+      </main>
+
+      <%= render "shared/footer" %>
+    </div>
   </body>
 </html>

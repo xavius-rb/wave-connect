@@ -1,13 +1,46 @@
 # Wave Connect
+[![CI](https://github.com/xavius-rb/wave-connect/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/xavius-rb/wave-connect/actions/workflows/ci.yml)
 
-A Ruby on Rails application for software engineers who want to manage services/applications.
+A Ruby on Rails application for software engineers who want to manage services.
 
 ## Prerequisites
 
 - Ruby 3.4.2
 - PostgreSQL
-- Docker (optional)
-- Node.js (for JavaScript compilation)
+- Docker
+
+## Development Environment
+
+### Using DevContainer (Recommended)
+
+The easiest way to get started is using VS Code's Dev Containers. This approach automatically sets up all prerequisites and provides a consistent development environment.
+
+1. Prerequisites for this method:
+   - Visual Studio Code
+   - Docker Desktop
+   - VS Code Remote - Containers extension
+
+2. Setup steps:
+   ```bash
+   git clone [repository-url]
+   cd wave-connect
+   code .
+   ```
+
+3. When VS Code prompts to "Reopen in Container", click "Reopen in Container". Or use the command palette (F1) and select "Dev Containers: Reopen in Container"
+
+4. Wait for the container to build. This will automatically:
+   - Set up Ruby 3.4.2
+   - Setup and run PostgreSQL
+   - Install all dependencies
+   - Configure the development environment
+
+5. Once inside the container, start the app with:
+   ```bash
+   bin/dev
+   ```
+
+The development environment is now ready to use!
 
 ## Getting Started
 
@@ -15,18 +48,18 @@ A Ruby on Rails application for software engineers who want to manage services/a
 
 1. Clone the repository
 ```bash
-git clone [repository-url]
+git clone https://github.com/xavius-rb/wave-connect
 cd wave-connect
 ```
 
 2. Install dependencies
 ```bash
-bundle install
+bin/bundle install
 ```
 
 3. Setup database
 ```bash
-bin/rails db:create db:migrate db:seed
+bin/rails db:prepare
 ```
 
 ### Development
@@ -37,20 +70,6 @@ bin/dev
 ```
 
 The application will be available at http://localhost:3000
-
-### Using Docker
-
-A Dockerfile is provided for containerized development:
-
-1. Build the image:
-```bash
-docker build -t wave-connect .
-```
-
-2. Run the container:
-```bash
-docker-compose up
-```
 
 ## Testing
 
@@ -98,7 +117,7 @@ bin/kamal deploy
 
 ### Key Components
 
-- Rails 7.x
+- Rails 8.x
 - PostgreSQL Database
 - RSpec for testing
 - Rubocop for code quality
@@ -125,11 +144,3 @@ Background job processing is configured using Active Job.
 - Follow the Ruby Style Guide enforced by Rubocop
 - Run the test suite before submitting pull requests
 - Keep the documentation up to date
-
-## License
-
-[Add your license information here]
-
-## Contact
-
-[Add contact information or maintainer details here]

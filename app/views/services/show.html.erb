@@ -1,16 +1,166 @@
-<div class="container">
-  <% if notice %>
-    <div class="notice"><%= notice %></div>
-  <% end %>
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+  <!-- Service Details Card -->
+  <div class="bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Service Details</h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">Overview of <%= @service.name %></p>
+    </div>
+    <div class="border-t border-gray-200">
+      <dl>
+        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Name</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2"><%= @service.name %></dd>
+        </div>
+        <!-- Add additional service details here as needed -->
+      </dl>
+    </div>
+    <div class="px-4 py-4 sm:px-6 flex flex-wrap gap-4">
+      <%= link_to 'Edit Service', edit_service_path(@service), class: "inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+      <%= link_to 'Back to Services', services_path, class: "inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700" %>
+    </div>
+  </div>
 
-  <%= render @service %>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Current Deployment Info -->
+    <div class="bg-white shadow sm:rounded-lg">
+      <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Current Deployment</h3>
+      </div>
+      <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+        <div class="flex items-center space-x-3">
+          <div class="flex-shrink-0">
+            <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+              <img src="https://github.com/identicons/example.png" alt="Author avatar" class="h-10 w-10 rounded-full">
+            </div>
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="text-sm font-medium text-gray-900">
+              <a href="#" class="hover:underline">feat: Add user authentication system</a>
+            </p>
+            <div class="mt-1 flex items-center space-x-2 text-sm text-gray-500">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100">
+                <code class="text-gray-900">abc123d</code>
+              </span>
+              <span>by Sarah Smith</span>
+              <span>•</span>
+              <span>Deployed 2 hours ago</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Deployment Actions Section -->
+    <div class="bg-white shadow sm:rounded-lg p-4 sm:p-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Deployment Actions</h3>
+        <%= link_to 'Trigger Deploy', "#", method: :post, class: "mt-4 sm:mt-0 inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+      </div>
+      <p class="mt-2 max-w-2xl text-sm text-gray-500">Initiate a new deployment for this service.</p>
+    </div>
+  </div>
 
-  <div class="actions">
-    <%= link_to "Edit this service", edit_service_path(@service), class: "button button-primary" %>
-    <%= link_to "Back to services", services_path, class: "link" %>
-    <%= button_to "Destroy this service", @service,
-        method: :delete,
-        class: "button button-danger",
-        data: { confirm: "Are you sure?" } %>
+  <!-- Two-Column Layout: Open Pull Requests and Recent Commits -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Open Pull Requests -->
+    <div class="bg-white shadow sm:rounded-lg">
+      <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Open Pull Requests</h3>
+      </div>
+      <div class="border-t border-gray-200">
+        <ul role="list" class="divide-y divide-gray-200">
+          <% @pull_requests.each do |pr| %>
+              <li class="px-4 py-4">
+                <div class="flex items-center justify-between">
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-indigo-600 hover:text-indigo-900">
+                      <%= link_to pr['title'], pr['html_url'], target: "_blank", rel: "noopener noreferrer" %>
+                    </p>
+                    <p class="mt-1 text-xs text-gray-500">#<%= pr['number'] %> opened <%= time_ago_in_words(pr['created_at']) %> ago by <%= pr.dig('user', 'login') %></p>
+                </div>
+                <div class="ml-4">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                    <%= pr['state'] %> (Needs Review)
+                  </span>
+                </div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Recent Commits -->
+    <div class="bg-white shadow sm:rounded-lg">
+      <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Commits</h3>
+      </div>
+      <div class="border-t border-gray-200">
+        <ul role="list" class="divide-y divide-gray-200">
+          <% @commits.each do |commit| %>
+            <li class="px-4 py-4">
+              <div class="flex items-center space-x-3">
+                <div class="flex-shrink-0">
+                  <img class="h-6 w-6 rounded-full" src=<%= commit.dig('author', 'avatar_url') %> alt="">
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm text-gray-900 truncate"><%= commit.dig('commit', 'message') %></p>
+                  <p class="text-xs text-gray-500">By <%= commit.dig('commit', 'author', 'name') %> • <%= time_ago_in_words(commit.dig('commit', 'author', 'date')) %> ago</p>
+                </div>
+                <div class="flex-shrink-0">
+                  <code class="text-xs text-gray-500"><%= commit['sha'] %></code>
+                </div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Latest Deploys Section -->
+  <div class="bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Latest Deploys</h3>
+    </div>
+    <div class="border-t border-gray-200">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+            <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Deployed By</th>
+            <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Environment</th>
+            <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <!-- Mock data for deploys -->
+          <tr>
+            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">2025-04-14 10:00AM</td>
+            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">Alice</td>
+            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">Production</td>
+            <td class="px-4 py-2 whitespace-nowrap text-sm">
+              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Success</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">2025-04-13 03:45PM</td>
+            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">Bob</td>
+            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">Staging</td>
+            <td class="px-4 py-2 whitespace-nowrap text-sm">
+              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Failed</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">2025-04-12 09:15AM</td>
+            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">Charlie</td>
+            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">Production</td>
+            <td class="px-4 py-2 whitespace-nowrap text-sm">
+              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Success</span>
+            </td>
+          </tr>
+          <!-- Add more deploy rows as necessary -->
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
