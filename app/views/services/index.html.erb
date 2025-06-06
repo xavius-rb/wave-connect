@@ -1,16 +1,25 @@
-<p style="color: green"><%= notice %></p>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <!-- Page Header -->
+  <div class="flex items-center justify-between">
+    <h1 class="text-3xl font-bold text-gray-900">Services</h1>
+    <%= link_to 'New Service', new_service_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+  </div>
 
-<% content_for :title, "Services" %>
-
-<h1>Services</h1>
-
-<div id="services">
-  <% @services.each do |service| %>
-    <%= render service %>
-    <p>
-      <%= link_to "Show this service", service %>
-    </p>
-  <% end %>
+  <!-- Services Grid -->
+  <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <% @services.each do |service| %>
+      <div class="bg-white shadow rounded-lg p-6 hover:shadow-lg transition duration-150 ease-in-out">
+        <h2 class="text-xl font-semibold text-gray-800"><%= service.name %></h2>
+        <p class="mt-2 text-sm text-gray-600">
+          <span class="font-medium">Repository:</span>
+          <%= service.repository_url %>
+        </p>
+        <div class="mt-4 flex space-x-4">
+          <%= link_to 'Show', service_path(service), class: "text-indigo-600 hover:underline" %>
+          <%= link_to 'Edit', edit_service_path(service), class: "text-indigo-600 hover:underline" %>
+          <%= link_to 'Delete', service_path(service), method: :delete, data: { confirm: 'Are you sure?' }, class: "text-red-600 hover:underline" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>
-
-<%= link_to "New service", new_service_path %>

@@ -53,4 +53,9 @@ group :development, :test do
   gem "rspec-rails"
   gem "factory_bot_rails"
   gem "faker"
+  gem "webmock"
+  gem "vcr"
 end
+
+gem "tailwindcss-rails"
+gem "faraday"

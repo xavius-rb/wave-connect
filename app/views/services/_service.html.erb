@@ -1,11 +1,15 @@
-<div class="service-card">
-  <div class="service-detail">
-    <div class="service-label">Name</div>
-    <div class="service-value"><%= service.name %></div>
-  </div>
+<div class="bg-white rounded-lg shadow p-6 hover:shadow-md transition duration-150">
+  <div class="space-y-4">
+    <div>
+      <div class="text-sm font-medium text-gray-500">Name</div>
+      <div class="mt-1 text-sm text-gray-900"><%= service.name %></div>
+    </div>
 
-  <div class="service-detail">
-    <div class="service-label">Repository URL</div>
-    <div class="service-value"><%= service.repository_url %></div>
+    <div>
+      <div class="text-sm font-medium text-gray-500">Repository URL</div>
+      <div class="mt-1 text-sm text-gray-900">
+        <%= link_to service.repository_url, service.repository_url, class: "text-indigo-600 hover:text-indigo-900", target: "_blank" %>
+      </div>
+    </div>
   </div>
 </div>

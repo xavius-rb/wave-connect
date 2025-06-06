@@ -32,7 +32,7 @@ RSpec.describe "/services", type: :request do
     end
   end
 
-  describe "GET /show" do
+  describe "GET /show", :vcr do
     it "renders a successful response" do
       service = Service.create! valid_attributes
       get service_url(service)

@@ -39,9 +39,9 @@ jobs:
         run: bin/rails db:test:prepare
 
       - name: Run tests
-        run: bin/rspec --format json --out tmp/rspec_results.json -f p
+        run: bin/rspec --profile 5 --format json --out tmp/rspec_results.json -f p
 
-  breakeman:
+  brakeman:
     runs-on: ubuntu-latest
 
     steps:

@@ -1,0 +1,28 @@
+<header class="bg-white shadow">
+  <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 justify-between">
+      <div class="flex">
+        <div class="flex flex-shrink-0 items-center">
+          <!-- Placeholder for logo -->
+          <div class="w-8 h-8 bg-indigo-600 rounded-full"></div>
+          <span class="ml-2 text-xl font-semibold">Wave Connect</span>
+        </div>
+        <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+          <%= home_nav_link %>
+          <%= nav_link(services_path, "Services", controller: "services") %>
+        </div>
+      </div>
+      <div class="hidden sm:ml-6 sm:flex sm:items-center">
+        <div class="relative">
+          <button class="flex items-center text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <span class="sr-only">Open user menu</span>
+            <div class="w-8 h-8 bg-gray-300 rounded-full"></div>
+          </button>
+        </div>
+
+        <div class="hidden sm:ml-6 sm:flex sm:items-center">
+          <%= link_to 'Sign Out', "#", method: :delete, class: "text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+      </div>
+    </div>
+  </nav>
+</header>

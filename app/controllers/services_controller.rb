@@ -8,6 +8,9 @@ class ServicesController < ApplicationController
 
   # GET /services/1 or /services/1.json
   def show
+    repository = VersionControl::Repository.new(@service)
+    @pull_requests = repository.fetch_pull_requests
+    @commits = repository.fetch_commits
   end
 
   # GET /services/new

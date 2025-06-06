@@ -1,8 +1,14 @@
 <% content_for :title, "New service" %>
 
-<h1>New service</h1>
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="md:flex md:items-center md:justify-between md:space-x-4 mb-8">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">New Service</h1>
+    </div>
+  </div>
 
-<%= render "form", service: @service %>
+  <%= render "form", service: @service %>
+</div>
 
 <br>
 

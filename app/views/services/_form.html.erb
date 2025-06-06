@@ -1,27 +1,18 @@
-<%= form_with(model: service) do |form| %>
-  <% if service.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(service.errors.count, "error") %> prohibited this service from being saved:</h2>
+<%= form_with(model: service, class: "space-y-6") do |form| %>
+  <%= render_form_errors(service) %>
 
-      <ul>
-        <% service.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="space-y-2">
+    <%= form.label :name, class: "block text-sm font-medium leading-6 text-gray-900" %>
+    <%= form.text_field :name, class: "mt-2 block w-full rounded-lg bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
   </div>
 
-  <div>
-    <%= form.label :repository_url, style: "display: block" %>
-    <%= form.text_field :repository_url %>
+  <div class="space-y-2">
+    <%= form.label :repository_url, class: "block text-sm font-medium leading-6 text-gray-900" %>
+    <%= form.text_field :repository_url, class: "mt-2 block w-full rounded-lg bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="flex justify-end gap-4">
+    <%= link_to 'Cancel', services_path, class: "rounded-md bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+    <%= form.submit class: "rounded-md bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
   </div>
 <% end %>

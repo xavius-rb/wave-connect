@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_14_040308) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_16_223131) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -19,5 +19,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_14_040308) do
     t.string "repository_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "repository_access_token"
   end
 end
